@@ -1,0 +1,29 @@
+{
+  "name": "famimap",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./server/bin/www.js",
+    "install-spa": "npm install --prefix spa_src/",
+    "build-spa": "npm run build --prefix spa_src/",
+    "spa": "npm start --prefix spa_src/",
+    "dev": "npm-run-all --parallel start spa",
+    "install-server": "npm install",
+    "install-all": "npm-run-all --parallel install-server install-spa"
+  },
+  "type": "module",
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.18.2",
+    "mongoose": "^7.4.0",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "description": "Getting Started ---------------",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
+}

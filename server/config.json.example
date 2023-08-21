@@ -1,0 +1,8 @@
+{
+  "development": {
+    "MongoDBURI":""
+  },
+  "production": {
+    "MongoDBURI":""
+  }
+}
