@@ -16,7 +16,16 @@ const __filename = fileURLToPath(import.meta.url);
 const projectDirname = __filename.split(path.sep).slice(-4)[0];
 const debug = debugLib(projectDirname+':server');
 
+/**
+ * Connect MongoDB with Mongoose.
+ */
 
+async function connectMongo() {  
+  await mongoose.connect(config.MongoDBURI);
+}
+
+connectMongo().catch(err => console.log(err));
+ 
 /**
  * Get port from environment and store in Express.
  */
