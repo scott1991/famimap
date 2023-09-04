@@ -34,7 +34,7 @@ export async function parseHtmlToJSON() {
       liElements.forEach(liElement => {
         const itemText = liElement.textContent.trim();
         const checkbox = liElement.querySelector('input[name="specialItem"]');
-        const itemName = checkbox.value;
+        const itemName = checkbox.value.toString().toLocaleLowerCase();
         
         list.push({name: itemName, displayName: itemText, category: categoryName});
       });
