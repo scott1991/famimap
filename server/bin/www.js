@@ -10,8 +10,8 @@ import  http from 'http';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { mongoose } from "mongoose";
-import config from '../config.json' assert { type: "json" };
-
+import configs from '../config.json' assert { type: "json" };
+const config = configs[process.env.NODE_ENV || 'development'];
 const __filename = fileURLToPath(import.meta.url);
 const projectDirname = __filename.split(path.sep).slice(-4)[0];
 const debug = debugLib(projectDirname+':server');
