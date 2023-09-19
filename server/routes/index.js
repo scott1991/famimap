@@ -1,9 +1,24 @@
 import express from 'express';
 let router = express.Router();
 
+import {AllSpecial} from '../models/AllSpecial.js'
+import {Store} from '../models/Store.js'
+
 /* GET home page. */
-router.get('/', function (req, res, next) {
-    res.render('index', { title: 'Express' });
+router.get('/updatespecial', function (req, res, next) {
+    AllSpecial.updateFromSrc()
+    .then(() => {
+        res.json( { title: 'updatespecial' });
+    })
+    
+});
+
+router.get('/updatestore', function (req, res, next) {
+    Store.updateFromSrc()
+    .then(() => {
+        res.json( { title: 'updatestore' });
+    })
+    
 });
 
 export default router;
