@@ -3,6 +3,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import indexRouter from './routes/index.js';
+import store from './routes/store.js';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,5 +18,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../spa')));
 
 app.use('/', indexRouter);
+app.use('/store', store);
 
 export default app;

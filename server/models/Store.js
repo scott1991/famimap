@@ -10,7 +10,7 @@ const storeSchema = new mongoose.Schema({
   postel: String,
   location: {
     type: { type: String, default: 'Point' },
-    coordinates: { type: [Number], index: '2dsphere' }
+    coordinates: { type: [Number] }
   },
   addr: String,
   SERID: Number,
@@ -18,9 +18,13 @@ const storeSchema = new mongoose.Schema({
   post: String,
   specials: { type: [String], index: true },
   road: String
+}, {
+  timestamps: true
 });
 
-storeSchema.statics.updateStores = async function () {
+storeSchema.index({ 'location': '2dsphere' });
+
+storeSchema.statics.updateFromSrc = async function () {
   const cities = config.cities; // ["宜蘭縣","花蓮縣", ...]
   for (let city of cities) {
     const storeList = await getShopList(city);
