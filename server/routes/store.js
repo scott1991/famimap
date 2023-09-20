@@ -22,7 +22,7 @@ router.get('/getinrange', function (req, res, next) {
           type: "Point",
           coordinates: [lng, lat]
         },
-        $maxDistance: radius
+        $maxDistance: radius // meters
       }
     }
   };
