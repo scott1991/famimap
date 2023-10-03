@@ -3,7 +3,7 @@ let router = express.Router();
 
 import {AllSpecial} from '../models/AllSpecial.js'
 
-/* GET home page. */
+
 router.get('/', function (req, res, next) {
   AllSpecial.find()
     .then(specials => { 
