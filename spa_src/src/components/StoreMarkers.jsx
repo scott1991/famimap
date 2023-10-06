@@ -1,12 +1,6 @@
-import { Marker, Popup, useMapEvents } from 'react-leaflet';
+import { Marker, Popup } from 'react-leaflet';
 
-const StoreMarkers = ({ markers, getStoresInRange }) => {
-  const map = useMapEvents({
-    moveend: () => {
-      const center = map.getCenter();
-      getStoresInRange(center.lat, center.lng);
-    }
-  });
+const StoreMarkers = ({ markers }) => {
 
   return (
     <>

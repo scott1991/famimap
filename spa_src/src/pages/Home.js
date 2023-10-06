@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import Map from '../components/Map.jsx';
 import Filters from '../components/Filters.jsx';
+
 function Home() {
   const [filters, setFilters] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState({});
+  const [mapCenter, setMapCenter] = useState({ lat: 25.0510035, lng: 121.5422824, zoom: 10 });
 
   useEffect(() => {
     fetch('/allspecial')
@@ -14,11 +16,14 @@ function Home() {
       .catch(error => console.error(error));
   }, []);
 
-  const getStoresInRange = (lat, lng) => {
+  const getStoresInRange = () => {
+    getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.zoom);
+  }
+  const getStoresInRangeImpl = (lat, lng, zoom) => {
     const queryParams = new URLSearchParams({
       lat: lat,
       lng: lng,
-      radius: 5000,
+      radius: 1 / zoom * 10000,
     });
     let specialFilters = [];
     for (const filter in selectedFilters) {
@@ -43,6 +48,9 @@ function Home() {
     }))
   };
 
+  const handleMapCenter = (lat, lng, zoom) => {
+    setMapCenter({ lat, lng, zoom });
+  }
 
   return (
     <div className='d-flex flex-column' style={{ height: '100vh' }}>
@@ -57,7 +65,8 @@ function Home() {
           {/* TODO: store list in current map */}list
         </div>
         <div className='flex-grow-1 col-sm-10'>
-          <Map getStoresInRange={getStoresInRange} />
+          <Map getStoresInRange={getStoresInRange} handleMapCenter={handleMapCenter}>
+          </Map>
         </div>
 
       </div>
