@@ -6,6 +6,7 @@ function Home() {
   const [filters, setFilters] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState({});
   const [mapCenter, setMapCenter] = useState({ lat: 25.0510035, lng: 121.5422824, zoom: 10 });
+  const [markers, setMarkers] = useState([]);
 
   useEffect(() => {
     fetch('/allspecial')
@@ -23,7 +24,7 @@ function Home() {
     const queryParams = new URLSearchParams({
       lat: lat,
       lng: lng,
-      radius: 1 / zoom * 10000,
+      radius: 1 / zoom * 30000,
     });
     let specialFilters = [];
     for (const filter in selectedFilters) {
@@ -36,6 +37,7 @@ function Home() {
     fetch('/store/getinrange?' + queryParams.toString())
       .then(response => response.json())
       .then(data => {
+        setMarkers(data);
         console.log(data)
       })
       .catch(error => console.error(error));
@@ -65,7 +67,7 @@ function Home() {
           {/* TODO: store list in current map */}list
         </div>
         <div className='flex-grow-1 col-sm-10'>
-          <Map getStoresInRange={getStoresInRange} handleMapCenter={handleMapCenter}>
+          <Map getStoresInRange={getStoresInRange} handleMapCenter={handleMapCenter} markers={markers}>
           </Map>
         </div>
 
