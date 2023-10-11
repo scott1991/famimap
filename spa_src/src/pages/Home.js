@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Map from '../components/Map.jsx';
 import Filters from '../components/Filters.jsx';
+import List from '../components/List.jsx';
+import './Home.css';
 
 function Home() {
   const [filters, setFilters] = useState([]);
@@ -37,8 +39,21 @@ function Home() {
     fetch('/store/getinrange?' + queryParams.toString())
       .then(response => response.json())
       .then(data => {
+        // add center to data array
+        data.push({
+          "location": {
+              "type": "Point",
+              "coordinates": [
+                lng,
+                  lat
+              ]
+          },
+          "SERID": 123456,
+          name:""+lng + ","+lat
+      })
+
         setMarkers(data);
-        console.log(data)
+        
       })
       .catch(error => console.error(error));
   };
@@ -63,10 +78,10 @@ function Home() {
       </header>
 
       <div className='d-flex flex-grow-1 flex-column flex-sm-row'>
-        <div className='flex-grow-1 col-sm-2'>
-          {/* TODO: store list in current map */}list
+        <div className='flex-grow-1 col-sm-2 content-height' style={{ overflowX: 'scroll', overflowY: 'scroll' }}>
+          <List markers={markers} />
         </div>
-        <div className='flex-grow-1 col-sm-10'>
+        <div className='flex-grow-1 col-sm-10 content-height'>
           <Map getStoresInRange={getStoresInRange} handleMapCenter={handleMapCenter} markers={markers}>
           </Map>
         </div>

@@ -4,7 +4,6 @@ import StoreMarkers from './StoreMarkers.jsx'
 
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-console.log(L.Icon.Default.prototype._getIconUrl("iconRetinaUrl"));
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -14,22 +13,20 @@ L.Icon.Default.mergeOptions({
 });
 
 const MapEventsHandler = ({ getStoresInRange, handleMapCenter }) => {
+  const handleEvent = () => {
+    const center = map.getCenter();
+    const zoom = map.getZoom();
+    handleMapCenter(center.lat, center.lng, zoom);
+    getStoresInRange();
+    console.log('dragend/zoomend');
+  };
+
   const map = useMapEvents({
-    moveend: () => {
-      const center = map.getCenter();
-      const zoom = map.getZoom();
-      handleMapCenter(center.lat, center.lng, zoom);
-      getStoresInRange();
-    },
-    zoomend: () => {
-      const center = map.getCenter();
-      const zoom = map.getZoom();
-      handleMapCenter(center.lat, center.lng, zoom);
-      getStoresInRange();
-    }
+    dragend: handleEvent,
+    zoomend: handleEvent
   });
 
-  return null; // just for handle event, no need to return JSX。
+  return null; // 只處理事件，不需要返回 JSX。
 };
 
 const Map = ({ getStoresInRange, handleMapCenter, markers }) => {
