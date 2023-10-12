@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents, ScaleControl } from 'react-leaflet';
 import StoreMarkers from './StoreMarkers.jsx'
 
 import 'leaflet/dist/leaflet.css';
@@ -15,8 +15,11 @@ L.Icon.Default.mergeOptions({
 const MapEventsHandler = ({ getStoresInRange, handleMapCenter }) => {
   const handleEvent = () => {
     const center = map.getCenter();
-    const zoom = map.getZoom();
-    handleMapCenter(center.lat, center.lng, zoom);
+    const size = map.getSize();
+    const latLngStart = map.containerPointToLatLng([0, 0]);
+    const latLngEnd = map.containerPointToLatLng([size.x, size.y]);
+    const radius = Math.min(latLngStart.distanceTo(latLngEnd) / 2, 6000);
+    handleMapCenter(center.lat, center.lng, radius);
     getStoresInRange();
     console.log('dragend/zoomend');
   };
@@ -37,8 +40,8 @@ const Map = ({ getStoresInRange, handleMapCenter, markers }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="Map data &copy; OpenStreetMap contributors"
       />
-      
-      <MapEventsHandler getStoresInRange={getStoresInRange} handleMapCenter={handleMapCenter}/>
+      <ScaleControl position="bottomleft" metric={true} imperial={false} />
+      <MapEventsHandler getStoresInRange={getStoresInRange} handleMapCenter={handleMapCenter} />
       <StoreMarkers markers={markers} />
     </MapContainer>
   );

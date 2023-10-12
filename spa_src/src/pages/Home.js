@@ -7,7 +7,7 @@ import './Home.css';
 function Home() {
   const [filters, setFilters] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState({});
-  const [mapCenter, setMapCenter] = useState({ lat: 25.0510035, lng: 121.5422824, zoom: 10 });
+  const [mapCenter, setMapCenter] = useState({ lat: 25.0510035, lng: 121.5422824, radius: 3000 });
   const [markers, setMarkers] = useState([]);
 
   useEffect(() => {
@@ -20,13 +20,13 @@ function Home() {
   }, []);
 
   const getStoresInRange = () => {
-    getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.zoom);
+    getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius);
   }
-  const getStoresInRangeImpl = (lat, lng, zoom) => {
+  const getStoresInRangeImpl = (lat, lng, radius) => {
     const queryParams = new URLSearchParams({
       lat: lat,
       lng: lng,
-      radius: 1 / zoom * 30000,
+      radius: radius,
     });
     let specialFilters = [];
     for (const filter in selectedFilters) {
@@ -65,8 +65,8 @@ function Home() {
     }))
   };
 
-  const handleMapCenter = (lat, lng, zoom) => {
-    setMapCenter({ lat, lng, zoom });
+  const handleMapCenter = (lat, lng, radius) => {
+    setMapCenter({ lat, lng, radius });
   }
 
   return (
