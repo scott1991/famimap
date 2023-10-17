@@ -1,7 +1,6 @@
 import React from 'react';
-import { MapContainer, TileLayer, useMapEvents, ScaleControl, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents, ScaleControl } from 'react-leaflet';
 import StoreMarkers from './StoreMarkers.jsx'
-import { useCallback, useEffect } from 'react';
 
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
