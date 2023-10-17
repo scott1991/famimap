@@ -21,12 +21,8 @@ function Home() {
 
   useEffect(() => {
     getStoresInRange(mapCenter.lat, mapCenter.lng, mapCenter.radius);
-  }, [mapCenter]);
+  }, [mapCenter, selectedFilters]);
 
-  useEffect(() => {
-    getStoresInRange(mapCenter.lat, mapCenter.lng, mapCenter.radius);
-  }, [selectedFilters]);
-  
 
   const getStoresInRange = (lat, lng, radius) => {
     getStoresInRangeImpl(lat, lng, radius);
@@ -44,7 +40,9 @@ function Home() {
         specialFilters.push(filter);
       }
     }
-    queryParams.append('specials', specialFilters.join(','));
+    if (specialFilters.length > 0) {
+      queryParams.append('specials', specialFilters.join(','));
+    }
 
     fetch('/store/getinrange?' + queryParams.toString())
       .then(response => response.json())
@@ -54,6 +52,7 @@ function Home() {
       .catch(error => console.error(error));
   };
 
+  
   const handleFilterChange = (filterName, isSelected) => {
     setSelectedFilters((prevState) => ({
       ...prevState,
