@@ -19,9 +19,19 @@ function Home() {
       .catch(error => console.error(error));
   }, []);
 
-  const getStoresInRange = () => {
-    getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius);
+  useEffect(() => {
+    getStoresInRange(mapCenter.lat, mapCenter.lng, mapCenter.radius);
+  }, [mapCenter]);
+
+  useEffect(() => {
+    getStoresInRange(mapCenter.lat, mapCenter.lng, mapCenter.radius);
+  }, [selectedFilters]);
+  
+
+  const getStoresInRange = (lat, lng, radius) => {
+    getStoresInRangeImpl(lat, lng, radius);
   }
+
   const getStoresInRangeImpl = (lat, lng, radius) => {
     const queryParams = new URLSearchParams({
       lat: lat,
@@ -39,21 +49,7 @@ function Home() {
     fetch('/store/getinrange?' + queryParams.toString())
       .then(response => response.json())
       .then(data => {
-        // add center to data array
-        data.push({
-          "location": {
-              "type": "Point",
-              "coordinates": [
-                lng,
-                  lat
-              ]
-          },
-          "SERID": 123456,
-          name:""+lng + ","+lat
-      })
-
         setMarkers(data);
-        
       })
       .catch(error => console.error(error));
   };
@@ -82,7 +78,7 @@ function Home() {
           <List markers={markers} />
         </div>
         <div className='flex-grow-1 col-sm-10 content-height'>
-          <Map getStoresInRange={getStoresInRange} handleMapCenter={handleMapCenter} markers={markers}>
+          <Map handleMapCenter={handleMapCenter} markers={markers}>
           </Map>
         </div>
 

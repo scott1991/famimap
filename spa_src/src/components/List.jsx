@@ -9,7 +9,7 @@ function List({ markers }) {
         <ul>
           {markers.map((marker, index) => (
             <li key={index}>
-              {marker.name} {/* 你可以在這裡添加更多 marker 的屬性，如地址等 */}
+              {marker.name} 
             </li>
           ))}
         </ul>
