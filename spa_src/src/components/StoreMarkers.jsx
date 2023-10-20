@@ -6,7 +6,7 @@ const StoreMarkers = ({ markers }) => {
 <>
   {markers.map((marker, index) => (
     <Marker position={{ lat: marker.location.coordinates[1], lng: marker.location.coordinates[0] }} key={marker.SERID}>
-      <Popup>
+      <Popup autoPan={false}>
         <div>
           <strong>{marker.name}</strong><br />
           服務號: {marker.SERID}  <a href={"tel:"+marker.tel}>{marker.tel}</a> <br />

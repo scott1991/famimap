@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import _ from 'lodash-es';
 import Map from '../components/Map.jsx';
 import Filters from '../components/Filters.jsx';
 import List from '../components/List.jsx';
@@ -19,13 +20,17 @@ function Home() {
       .catch(error => console.error(error));
   }, []);
 
+  const debouncedGetStoresInRange = _.debounce(() => getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius), 1000);
+
+
+  
   useEffect(() => {
-    getStoresInRange(mapCenter.lat, mapCenter.lng, mapCenter.radius);
+    debouncedGetStoresInRange();
   }, [mapCenter, selectedFilters]);
 
 
-  const getStoresInRange = (lat, lng, radius) => {
-    getStoresInRangeImpl(lat, lng, radius);
+  const getStoresInRange = () => {
+    getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius);
   }
 
   const getStoresInRangeImpl = (lat, lng, radius) => {
@@ -52,7 +57,7 @@ function Home() {
       .catch(error => console.error(error));
   };
 
-  
+
   const handleFilterChange = (filterName, isSelected) => {
     setSelectedFilters((prevState) => ({
       ...prevState,

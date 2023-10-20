@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapContainer, TileLayer, useMapEvents, ScaleControl } from 'react-leaflet';
-import StoreMarkers from './StoreMarkers.jsx'
+import StoreMarkers from './StoreMarkers.jsx';
+
 
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -15,18 +16,23 @@ L.Icon.Default.mergeOptions({
 
 const MapEventsHandler = ({ handleMapCenter }) => {
 
+  const updatedCenter = () => {
+    console.log("moveend");
+    const updatedCenter = map.getCenter();
+    console.log("Updated center:", updatedCenter);
+
+    const size = map.getSize();
+    const latLngStart = map.containerPointToLatLng([0, 0]);
+    const latLngEnd = map.containerPointToLatLng([size.x, size.y]);
+    const radius = Math.min(latLngStart.distanceTo(latLngEnd) / 2, 6000);
+    handleMapCenter(updatedCenter.lat, updatedCenter.lng, radius);
+  }
+
   const map = useMapEvents({
     moveend: () => {
-      console.log("moveend");
-      const updatedCenter = map.getCenter();
-      console.log("Updated center:", updatedCenter);
-
-      const size = map.getSize();
-      const latLngStart = map.containerPointToLatLng([0, 0]);
-      const latLngEnd = map.containerPointToLatLng([size.x, size.y]);
-      const radius = Math.min(latLngStart.distanceTo(latLngEnd) / 2, 6000);
-      handleMapCenter(updatedCenter.lat, updatedCenter.lng, radius);
+      updatedCenter();
     }
+
   })
   return null;
 };
@@ -35,7 +41,7 @@ const MapEventsHandler = ({ handleMapCenter }) => {
 
 const Map = ({ handleMapCenter, markers }) => {
   return (
-    <MapContainer center={[25.13327, 121.49717]} zoom={13} style={{ height: '100%', width: '100%' }} >
+    <MapContainer center={[25.0510035, 121.5422824]} zoom={13} style={{ height: '100%', width: '100%' }} >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="Map data &copy; OpenStreetMap contributors"
