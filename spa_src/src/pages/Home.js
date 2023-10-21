@@ -28,7 +28,12 @@ function Home() {
     debouncedGetStoresInRange();
   }, [mapCenter, selectedFilters]);
 
-
+  // some div will not effect by data-bs-theme because they inherit from body, but react can't add data-bs-theme there directly
+  useEffect(() => {
+    document.body.setAttribute('data-bs-theme', 'dark');
+  }, []);
+  
+  
   const getStoresInRange = () => {
     getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius);
   }
@@ -70,7 +75,7 @@ function Home() {
   }
   
   return (
-    <div className='d-flex flex-column' style={{ height: '100vh' }} data-bs-theme="dark" >
+    <div className='d-flex flex-column' style={{ height: '100vh' }}>
       <header className="flex-wrap justify-content-start py-3" style={{ backgroundColor: "#00b347" }}>
         <a href="/" className="px-1 px-sm-3 text-decoration-none">
           <span className="fs-4" style={{ color: "#007bff", fontWeight: "bold", textShadow: "0px 0px 4px white" }}>FamiMap</span>
