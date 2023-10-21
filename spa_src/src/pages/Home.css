@@ -1,9 +1,15 @@
 .content-height {
-  max-height: calc((100vh - 25vh - 68px)/2);
+  /* max-height: calc((100vh - 25vh - 68px)/2); */
+  max-height: calc((100vh - 25vh )/2);
 }
 
 @media (min-width: 576px) {
   .content-height {
-    max-height: calc(100vh - 25vh - 68px);
+    max-height: calc(100vh - 25vh);
   }
+}
+
+.dark-style {
+  background-color: #343a40;
+  color: #ffffff;
 }

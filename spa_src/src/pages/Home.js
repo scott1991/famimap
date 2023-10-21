@@ -23,7 +23,7 @@ function Home() {
   const debouncedGetStoresInRange = _.debounce(() => getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius), 1000);
 
 
-  
+
   useEffect(() => {
     debouncedGetStoresInRange();
   }, [mapCenter, selectedFilters]);
@@ -68,9 +68,9 @@ function Home() {
   const handleMapCenter = (lat, lng, radius) => {
     setMapCenter({ lat, lng, radius });
   }
-
+  
   return (
-    <div className='d-flex flex-column' style={{ height: '100vh' }}>
+    <div className='d-flex flex-column' style={{ height: '100vh' }} data-bs-theme="dark" >
       <header className="flex-wrap justify-content-start py-3" style={{ backgroundColor: "#00b347" }}>
         <a href="/" className="px-1 px-sm-3 text-decoration-none">
           <span className="fs-4" style={{ color: "#007bff", fontWeight: "bold", textShadow: "0px 0px 4px white" }}>FamiMap</span>
@@ -87,10 +87,8 @@ function Home() {
         </div>
 
       </div>
-      <div className='mt-auto' style={{ maxHeight: '25vh' }}>
-        <div className='container h-100' style={{ overflowY: 'auto' }}>
+      <div className='mt-auto w-100 dark-style' style={{ height: '25vh', overflowY:'scroll' }} >
           <Filters filters={filters} handleFilterChange={handleFilterChange} />
-        </div>
       </div>
     </div>
 
