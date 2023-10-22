@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import _ from 'lodash-es';
+import DarkModeToggle from "react-dark-mode-toggle";
+
 import Map from '../components/Map.jsx';
 import Filters from '../components/Filters.jsx';
 import List from '../components/List.jsx';
@@ -10,6 +12,20 @@ function Home() {
   const [selectedFilters, setSelectedFilters] = useState({});
   const [mapCenter, setMapCenter] = useState({ lat: 25.0510035, lng: 121.5422824, radius: 3000 });
   const [markers, setMarkers] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      return theme === 'dark';
+    }
+    // if theme not found in localStorage, use system prefers setting
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  // some div will not effect by data-bs-theme because they inherit from body, but react can't add data-bs-theme there directly
+  useEffect(() => {
+    const theme = isDarkMode ? 'dark' : 'light';
+    document.body.setAttribute('data-bs-theme', theme);
+  }, [isDarkMode]);
 
   useEffect(() => {
     fetch('/allspecial')
@@ -28,12 +44,13 @@ function Home() {
     debouncedGetStoresInRange();
   }, [mapCenter, selectedFilters]);
 
-  // some div will not effect by data-bs-theme because they inherit from body, but react can't add data-bs-theme there directly
-  useEffect(() => {
-    document.body.setAttribute('data-bs-theme', 'dark');
-  }, []);
-  
-  
+  const onToggleDarkMode = (newIsDarkMode) => {
+    setIsDarkMode(newIsDarkMode);
+    const theme = newIsDarkMode ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+  }
+
+
   const getStoresInRange = () => {
     getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius);
   }
@@ -73,13 +90,21 @@ function Home() {
   const handleMapCenter = (lat, lng, radius) => {
     setMapCenter({ lat, lng, radius });
   }
-  
+
   return (
     <div className='d-flex flex-column' style={{ height: '100vh' }}>
-      <header className="flex-wrap justify-content-start py-3" style={{ backgroundColor: "#00b347" }}>
+      <header className="d-flex flex-wrap justify-content-start py-3" style={{ backgroundColor: "#00b347" }}>
         <a href="/" className="px-1 px-sm-3 text-decoration-none">
           <span className="fs-4" style={{ color: "#007bff", fontWeight: "bold", textShadow: "0px 0px 4px white" }}>FamiMap</span>
         </a>
+        <div style={{ marginLeft: 'auto',marginRight:'1rem' }}>
+          <DarkModeToggle
+            onChange={onToggleDarkMode}
+            checked={isDarkMode}
+            size={80}
+          />
+        </div>
+
       </header>
 
       <div className='d-flex flex-grow-1 flex-column flex-sm-row'>
@@ -92,8 +117,8 @@ function Home() {
         </div>
 
       </div>
-      <div className='mt-auto w-100 dark-style' style={{ height: '25vh', overflowY:'scroll' }} >
-          <Filters filters={filters} handleFilterChange={handleFilterChange} />
+      <div className='mt-auto w-100' style={{ height: '25vh', overflowY: 'scroll' }} >
+        <Filters filters={filters} handleFilterChange={handleFilterChange} />
       </div>
     </div>
 
