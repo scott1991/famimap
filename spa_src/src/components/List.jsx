@@ -1,4 +1,5 @@
 import React from 'react';
+import StoreDetail from './StoreDetail.jsx';
 
 function List({ markers }) {
   return (
@@ -11,11 +12,8 @@ function List({ markers }) {
             <div className="card-header">
               {marker.name}
             </div>
-            <div className="card-body" style={{padding:'0.4rem'}}>
-              <span className="card-text">服務號:{marker.SERID}</span><br />
-              <span className="card-text">{marker.addr}</span><br />
-              <span className="card-text">Tel: {marker.tel}</span><br />
-              <span className="card-text">Specials: {marker.specials.join(', ')}</span>
+            <div className="card-body" style={{ padding: '0.4rem' }}>
+              <StoreDetail storeDetail={marker} />
             </div>
           </div>
         ))
