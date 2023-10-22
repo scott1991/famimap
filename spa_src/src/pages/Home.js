@@ -117,7 +117,7 @@ function Home() {
         </div>
 
       </div>
-      <div className='mt-auto w-100' style={{ height: '25vh', overflowY: 'scroll' }} >
+      <div className='mt-auto w-100 container-fluid' style={{ height: '25vh', overflowY: 'scroll' }} >
         <Filters filters={filters} handleFilterChange={handleFilterChange} />
       </div>
     </div>
