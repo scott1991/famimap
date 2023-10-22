@@ -2,9 +2,16 @@
   /* max-height: calc((100vh - 25vh - 68px)/2); */
   max-height: calc((100vh - 25vh )/2);
 }
+.content-height-list {
+  /* max-height: calc((100vh - 25vh - 68px)/2); */
+  max-height: calc((100vh - 40vh )/2);
+}
 
 @media (min-width: 576px) {
   .content-height {
+    max-height: calc(100vh - 25vh);
+  }
+  .content-height-list {
     max-height: calc(100vh - 25vh);
   }
 }

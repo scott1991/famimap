@@ -41,7 +41,7 @@ const MapEventsHandler = ({ handleMapCenter }) => {
 
 const Map = ({ handleMapCenter, markers }) => {
   return (
-    <MapContainer center={[25.0510035, 121.5422824]} zoom={13} style={{ height: '100%', width: '100%' }} >
+    <MapContainer center={[25.0510035, 121.5422824]} zoom={15} style={{ height: '100%', width: '100%' }} >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="Map data &copy; OpenStreetMap contributors"

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import _ from 'lodash-es';
 import DarkModeToggle from "react-dark-mode-toggle";
 
@@ -93,11 +93,11 @@ function Home() {
 
   return (
     <div className='d-flex flex-column' style={{ height: '100vh' }}>
-      <header className="d-flex flex-wrap justify-content-start py-3" style={{ backgroundColor: "#00b347" }}>
+      <header className="d-flex flex-wrap justify-content-start py-1 py-sm-3" style={{ backgroundColor: "#00b347" }}>
         <a href="/" className="px-1 px-sm-3 text-decoration-none">
           <span className="fs-4" style={{ color: "#007bff", fontWeight: "bold", textShadow: "0px 0px 4px white" }}>FamiMap</span>
         </a>
-        <div style={{ marginLeft: 'auto',marginRight:'1rem' }}>
+        <div style={{ marginLeft: 'auto', marginRight: '1rem' }}>
           <DarkModeToggle
             onChange={onToggleDarkMode}
             checked={isDarkMode}
@@ -108,11 +108,11 @@ function Home() {
       </header>
 
       <div className='d-flex flex-grow-1 flex-column flex-sm-row'>
-        <div className='flex-grow-1 col-sm-2 content-height' style={{ overflowX: 'scroll', overflowY: 'scroll' }}>
+        <div className='flex-grow-1 col-sm-2 content-height-list' style={{ overflowX: 'scroll', overflowY: 'scroll' }}>
           <List markers={markers} />
         </div>
         <div className='flex-grow-1 col-sm-10 content-height'>
-          <Map handleMapCenter={handleMapCenter} markers={markers}>
+          <Map handleMapCenter={handleMapCenter} markers={markers} >
           </Map>
         </div>
 
