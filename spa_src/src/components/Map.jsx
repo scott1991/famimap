@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { MapContainer, TileLayer, useMapEvents, ScaleControl } from 'react-leaflet';
 import StoreMarkers from './StoreMarkers.jsx';
 
@@ -15,6 +16,7 @@ L.Icon.Default.mergeOptions({
 
 
 const MapEventsHandler = ({ handleMapCenter }) => {
+  
 
   const updatedCenter = () => {
     console.log("moveend");
@@ -31,9 +33,21 @@ const MapEventsHandler = ({ handleMapCenter }) => {
   const map = useMapEvents({
     moveend: () => {
       updatedCenter();
+    },
+    locationfound: (location) => {
+      const { lat, lng } = location.latlng;
+      map.flyTo([lat, lng], 15);
+    },
+    locationerror: (error) => {
+      console.log(error);
     }
 
   })
+
+  useEffect(() => {
+    map.locate();
+  }, [map]);
+
   return null;
 };
 
@@ -41,7 +55,7 @@ const MapEventsHandler = ({ handleMapCenter }) => {
 
 const Map = ({ handleMapCenter, markers }) => {
   return (
-    <MapContainer center={[25.0510035, 121.5422824]} zoom={15} style={{ height: '100%', width: '100%' }} >
+    <MapContainer center={[25.0510035, 121.5422824]} zoom={14} style={{ height: '100%', width: '100%' }} >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="Map data &copy; OpenStreetMap contributors"
