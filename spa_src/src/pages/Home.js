@@ -28,7 +28,7 @@ function Home() {
   }, [isDarkMode]);
 
   useEffect(() => {
-    fetch('/allspecial')
+    fetch( process.env.PUBLIC_URL + '/allspecial')
       .then(response => response.json())
       .then((data) => {
         setFilters(data);
@@ -71,7 +71,7 @@ function Home() {
       queryParams.append('specials', specialFilters.join(','));
     }
 
-    fetch('/store/getinrange?' + queryParams.toString())
+    fetch(process.env.PUBLIC_URL+'/store/getinrange?' + queryParams.toString())
       .then(response => response.json())
       .then(data => {
         setMarkers(data);
