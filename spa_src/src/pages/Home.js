@@ -112,7 +112,7 @@ function Home() {
           <List markers={markers} />
         </div>
         <div className='flex-grow-1 col-sm-10 content-height'>
-          <Map handleMapCenter={handleMapCenter} markers={markers} >
+          <Map handleMapCenter={handleMapCenter} markers={markers} mapCenter={mapCenter}>
           </Map>
         </div>
 

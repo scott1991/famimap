@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { MapContainer, TileLayer, useMapEvents, ScaleControl } from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents, ScaleControl, Circle } from 'react-leaflet';
 import StoreMarkers from './StoreMarkers.jsx';
 
 
@@ -15,8 +15,8 @@ L.Icon.Default.mergeOptions({
 });
 
 
-const MapContent = ({ handleMapCenter, markers }) => {
-  const updatedCenter = () => {
+const MapContent = ({ handleMapCenter, markers, mapCenter }) => {
+  const updateCenter = () => {
     // console.log("moveend");
     const updatedCenter = map.getCenter();
     // console.log("Updated center:", updatedCenter);
@@ -30,7 +30,7 @@ const MapContent = ({ handleMapCenter, markers }) => {
 
   const map = useMapEvents({
     moveend: () => {
-      updatedCenter();
+      updateCenter();
     },
     locationfound: (location) => {
       const { lat, lng } = location.latlng;
@@ -52,15 +52,16 @@ const MapContent = ({ handleMapCenter, markers }) => {
       attribution="Map data &copy; OpenStreetMap contributors" />
       <ScaleControl position="bottomleft" metric={true} imperial={false} />
       <StoreMarkers markers={markers} />
+      <Circle center={[mapCenter.lat, mapCenter.lng]} radius={mapCenter.radius} color="red" fillColor="red" fillOpacity={0.1} />
     </>
 
   );
 };
 
-const Map = ({ handleMapCenter, markers }) => {
+const Map = ({ handleMapCenter, markers, mapCenter }) => {
   return (
-    <MapContainer center = { [25.0510035, 121.5422824]} zoom = { 14} style = {{ height: '100%', width: '100%' }} >
-      <MapContent handleMapCenter={handleMapCenter} markers={markers} />
+    <MapContainer center = {[25.0510035, 121.5422824]} zoom = {14} style = {{ height: '100%', width: '100%' }} >
+      <MapContent handleMapCenter={handleMapCenter} markers={markers} mapCenter={mapCenter}/>
     </MapContainer >
   )
 }
