@@ -28,7 +28,7 @@ router.get('/getinrange', function (req, res, next) {
   };
 
   if (req.query.specials) {
-    query['specials'] = { $in: req.query.specials.split(',') };
+    query['specials'] = { $all: req.query.specials.split(',') };
   }
 
   Store.find(query)
@@ -38,7 +38,7 @@ router.get('/getinrange', function (req, res, next) {
     .catch(err => {
       
       console.error(err);
-      res.status(500);
+      res.status(500).send('Internal Server Error');
     });
 
 });
