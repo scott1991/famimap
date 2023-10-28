@@ -15,13 +15,11 @@ L.Icon.Default.mergeOptions({
 });
 
 
-const MapEventsHandler = ({ handleMapCenter }) => {
-  
-
+const MapContent = ({ handleMapCenter, markers }) => {
   const updatedCenter = () => {
-    console.log("moveend");
+    // console.log("moveend");
     const updatedCenter = map.getCenter();
-    console.log("Updated center:", updatedCenter);
+    // console.log("Updated center:", updatedCenter);
 
     const size = map.getSize();
     const latLngStart = map.containerPointToLatLng([0, 0]);
@@ -48,22 +46,23 @@ const MapEventsHandler = ({ handleMapCenter }) => {
     map.locate();
   }, [map]);
 
-  return null;
+  return (
+    <><TileLayer
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      attribution="Map data &copy; OpenStreetMap contributors" />
+      <ScaleControl position="bottomleft" metric={true} imperial={false} />
+      <StoreMarkers markers={markers} />
+    </>
+
+  );
 };
-
-
 
 const Map = ({ handleMapCenter, markers }) => {
   return (
-    <MapContainer center={[25.0510035, 121.5422824]} zoom={14} style={{ height: '100%', width: '100%' }} >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="Map data &copy; OpenStreetMap contributors"
-      />
-      <ScaleControl position="bottomleft" metric={true} imperial={false} />
-      <MapEventsHandler handleMapCenter={handleMapCenter} />
-      <StoreMarkers markers={markers} />
-    </MapContainer>
-  );
-};
+    <MapContainer center = { [25.0510035, 121.5422824]} zoom = { 14} style = {{ height: '100%', width: '100%' }} >
+      <MapContent handleMapCenter={handleMapCenter} markers={markers} />
+    </MapContainer >
+  )
+}
+
 export default Map;
