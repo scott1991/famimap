@@ -52,7 +52,7 @@ const MapContent = ({ handleMapCenter, markers, mapCenter }) => {
       attribution="Map data &copy; OpenStreetMap contributors" />
       <ScaleControl position="bottomleft" metric={true} imperial={false} />
       <StoreMarkers markers={markers} />
-      <Circle center={[mapCenter.lat, mapCenter.lng]} radius={mapCenter.radius} color="red" fillColor="red" fillOpacity={0.1} />
+      <Circle center={[mapCenter.lat, mapCenter.lng]} radius={mapCenter.radius} color="blue" fillOpacity={0} weight={2} />
     </>
 
   );
