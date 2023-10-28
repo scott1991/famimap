@@ -5,7 +5,7 @@ const StoreDetail = ({ storeDetail }) => {
       <strong>{storeDetail.name}</strong><br />
       服務號: {storeDetail.SERID}  <a href={"tel:" + storeDetail.tel}>{storeDetail.tel}</a> <br />
       {storeDetail.addr}<br />
-      特殊服務: {storeDetail.specials.map(special => {
+      {storeDetail.specials.map(special => {
         let iconUrl;
         try {
           iconUrl = require(`../icons/${special}.png`);
