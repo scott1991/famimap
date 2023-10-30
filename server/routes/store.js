@@ -6,14 +6,18 @@ import { Store } from '../models/Store.js'
 /* GET home page. */
 router.get('/getinrange', function (req, res, next) {
   if (!req.query.lat || !req.query.lng || !req.query.radius) { //400
-    res.status(400).json({ error: 'lat, lng and radius are required' })
+    res.status(400).json({ error: 'lat, lng and radius are required' });
+    return;
   }
 
   const lat = parseFloat(req.query.lat);
   const lng = parseFloat(req.query.lng);
   const radius = parseFloat(req.query.radius);
 
-
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+    res.status(400).json({ error: 'Invalid lat or lng' });
+    return;
+  }
   
   let query = {
     location: {
