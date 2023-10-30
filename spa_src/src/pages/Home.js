@@ -28,10 +28,12 @@ function Home() {
   }, [isDarkMode]);
 
   useEffect(() => {
-    fetch( process.env.PUBLIC_URL + '/allspecial')
-      .then(response => response.json())
-      .then((data) => {
-        setFilters(data);
+    fetch(process.env.PUBLIC_URL + '/allspecial')
+      .then(response => {
+        return response.json().then(data => {
+          if (!response.ok) throw Error(data.err || 'HTTP error');
+          setFilters(data);
+        });
       })
       .catch(error => console.error(error));
   }, []);
@@ -71,10 +73,12 @@ function Home() {
       queryParams.append('specials', specialFilters.join(','));
     }
 
-    fetch(process.env.PUBLIC_URL+'/store/getinrange?' + queryParams.toString())
-      .then(response => response.json())
-      .then(data => {
-        setMarkers(data);
+    fetch(process.env.PUBLIC_URL + '/store/getinrange?' + queryParams.toString())
+      .then(response => {
+        return response.json().then(data => {
+          if (!response.ok) throw Error(data.err || 'HTTP error');
+          setMarkers(data);
+        });
       })
       .catch(error => console.error(error));
   };
