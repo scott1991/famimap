@@ -6,7 +6,7 @@
 
 import app from '../app.js';
 import debugLib from 'debug';
-import  http from 'http';
+import http from 'http';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { mongoose } from "mongoose";
@@ -14,18 +14,19 @@ import configs from '../config.json' assert { type: "json" };
 const config = configs[process.env.NODE_ENV || 'development'];
 const __filename = fileURLToPath(import.meta.url);
 const projectDirname = __filename.split(path.sep).slice(-4)[0];
-const debug = debugLib(projectDirname+':server');
+const debug = debugLib(projectDirname + ':server');
+
 
 /**
  * Connect MongoDB with Mongoose.
  */
 
-async function connectMongo() {  
+async function connectMongo() {
   await mongoose.connect(config.MongoDBURI);
 }
 
 connectMongo().catch(err => console.log(err));
- 
+
 /**
  * Get port from environment and store in Express.
  */
@@ -106,3 +107,19 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+import cron from 'node-cron';
+import {AllSpecial} from '../models/AllSpecial.js';
+import {Store} from '../models/Store.js';
+
+cron.schedule(config.cronSchedule, async () => {
+  try {
+    await AllSpecial.updateFromSrc();
+    await Store.updateAllFromSrc();
+  } catch (error) {
+    console.error('Fetch error updateAllFromSrc');
+    console.error(error);
+  }
+  
+});

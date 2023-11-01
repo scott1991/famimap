@@ -19,6 +19,7 @@
     "jsdom": "^22.1.0",
     "mongoose": "^7.4.0",
     "morgan": "~1.9.1",
+    "node-cron": "^3.0.2",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
