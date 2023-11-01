@@ -14,7 +14,7 @@ router.get('/updatespecial', function (req, res, next) {
 });
 
 router.get('/updatestore', function (req, res, next) {
-    Store.updateFromSrc()
+    Store.updateAllFromSrc()
     .then(() => {
         res.json( { title: 'updatestore' });
     })
