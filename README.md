@@ -7,7 +7,7 @@
 This is a fullstack project for a map of FamilyMart stores in Taiwan. It's more intuitive than the [Official Map](https://www.family.com.tw/Marketing/storemap/). The project uses React.js and started with this template [express-es6-spa-example](https://github.com/scott1991/express-es6-spa-example).
 
 ![screenshot1](READMEassets/p1.png)
-![screenshot1](READMEassets/p2.png)
+![screenshot2](READMEassets/p2.png)
 
 ## Tech Stack
 

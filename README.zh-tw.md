@@ -6,7 +6,7 @@
 該專案使用 [express-es6-spa-example](https://github.com/scott1991/express-es6-spa-example) 來初始化
 
 ![screenshot1](READMEassets/p1.png)
-![screenshot1](READMEassets/p2.png)
+![screenshot2](READMEassets/p2.png)
 
 ## Tech Stack
 
