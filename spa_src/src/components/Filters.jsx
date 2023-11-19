@@ -1,8 +1,15 @@
 function Filters({ filters, handleFilterChange }) {
+  const getIconUrl = (name) => {
+    try {
+      return require(`../icons/${name}.png`);
+    } catch (error) {
+      return require('../icons/notfound.png');
+    }
+  };
   return (
     <form className="d-flex flex-wrap">
       {filters.map(filter => {
-        const iconUrl = require(`../icons/${filter.name}.png`);
+        const iconUrl = getIconUrl(filter.name);
         return (
         <div className="form-check col-6 col-sm-4 col-md-3 col-xl-2" key={filter.name}>
           <input
