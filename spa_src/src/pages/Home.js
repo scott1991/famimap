@@ -41,9 +41,10 @@ function Home() {
   const debouncedGetStoresInRange = _.debounce(() => getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius), 1000);
 
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     debouncedGetStoresInRange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapCenter, selectedFilters]);
 
   const onToggleDarkMode = (newIsDarkMode) => {
