@@ -1,0 +1,49 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 20.x ]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci && npm ci --prefix spa_src/
+
+  cd:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Prepare ssh-key
+      if: github.ref == 'refs/heads/main'
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H -t rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.HOST }} >> ~/.ssh/known_hosts 
+
+    - name: build
+      if: github.ref == 'refs/heads/main'
+      run: |
+        npm install
+        npm install-spa
+        npm build-spa
+
+    - name: deploy
+      if: github.ref == 'refs/heads/main'
+      run: |
+        rsync -e "ssh -p ${{ secrets.SSH_PORT }}" -az -exclude 'node_modules/' -exclude '/spa_src' ./ REMOTE_HOST:@${{ secrets.HOST }}:/opt/servers/famimap
+        ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.USER }}@${{ secrets.HOST }} 'source /home/${{ secrets.USER }}/.nvm/nvm.sh && cd /opt/servers/famimap && npm install && pm2 restart famimap'
