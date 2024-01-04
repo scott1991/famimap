@@ -39,8 +39,8 @@ jobs:
       if: github.ref == 'refs/heads/master'
       run: |
         npm install
-        npm install-spa
-        npm build-spa
+        npm run install-spa
+        npm run build-spa
 
     - name: deploy
       if: github.ref == 'refs/heads/master'
