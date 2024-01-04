@@ -41,7 +41,7 @@ function Home() {
   const debouncedGetStoresInRange = _.debounce(() => getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius), 1000);
 
 
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     debouncedGetStoresInRange();
   }, [mapCenter, selectedFilters]);
@@ -52,11 +52,11 @@ function Home() {
     localStorage.setItem('theme', theme);
   }
 
-
+  /*
   const getStoresInRange = () => {
     getStoresInRangeImpl(mapCenter.lat, mapCenter.lng, mapCenter.radius);
   }
-
+  */
   const getStoresInRangeImpl = (lat, lng, radius) => {
     const queryParams = new URLSearchParams({
       lat: lat,
