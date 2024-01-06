@@ -18,7 +18,8 @@ const storeSchema = new mongoose.Schema({
   pkey: String,
   post: String,
   specials: { type: [String], index: true },
-  road: String
+  road: String,
+  disabled: { type: Boolean, default: false, index: true  }
 }, {
   timestamps: true
 });
@@ -55,5 +56,12 @@ storeSchema.statics.updateAllFromSrc = async function () {
     await this.updateFromSrc(city);
     await delay(5000);
   }
+}
+
+storeSchema.statics.disableNoUpdatedStores = async function(){
+  // disable stores which have not been updated more than one day
+  let condition = { updatedAt: { $lt: new Date(Date.now() - 1000 * 60 * 60 * 24) } } ;
+  const result = await this.updateMany( condition, { disabled: true });
+  return result;
 }
 export const Store = mongoose.model('Store', storeSchema);
