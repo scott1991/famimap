@@ -28,7 +28,8 @@ router.get('/getinrange', function (req, res, next) {
         },
         $maxDistance: radius // meters
       }
-    }
+    },
+    disabled:false
   };
 
   if (req.query.specials) {
