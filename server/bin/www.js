@@ -112,7 +112,7 @@ function onListening() {
 import cron from 'node-cron';
 import {AllSpecial} from '../models/AllSpecial.js';
 import {Store} from '../models/Store.js';
-console.log(await Store.disableNoUpdatedStores());
+
 cron.schedule(config.cronSchedule, async () => {
   try {
     await AllSpecial.updateFromSrc();

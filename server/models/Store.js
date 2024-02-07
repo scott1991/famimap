@@ -26,7 +26,7 @@ const storeSchema = new mongoose.Schema({
 
 storeSchema.index({ 'location': '2dsphere' });
 storeSchema.statics.updateFromSrc = async function (city) {
-  const storeList = await getShopList(city);
+    const storeList = await getShopList(city);
   console.log(`got ${storeList.length} stores from ${city}`);
   const stores = storeList.map(store => {
     return {
@@ -62,6 +62,8 @@ storeSchema.statics.disableNoUpdatedStores = async function(){
   // disable stores which have not been updated more than one day
   let condition = { updatedAt: { $lt: new Date(Date.now() - 1000 * 60 * 60 * 24) } } ;
   const result = await this.updateMany( condition, { disabled: true });
+  let condition2 = { updatedAt: { $gte: new Date(Date.now() - 1000 * 60 * 60 * 24) } } ;
+  const result2 = await this.updateMany( condition2, { disabled: false });
   return result;
 }
 export const Store = mongoose.model('Store', storeSchema);
